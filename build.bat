@@ -22,6 +22,12 @@ if errorlevel 1 goto fail
 
 echo.
 echo Build OK: %DEST%\ClaudeUsageBar.exe
+
+rem Create/refresh the Start Menu shortcut so it shows in the app list and search.
+rem The icon is read from the exe itself, so the shortcut survives moving this folder.
+echo Creating Start Menu shortcut...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$lnk = Join-Path ([Environment]::GetFolderPath('Programs')) 'Claude Usage Bar.lnk'; $exe = Join-Path $env:LOCALAPPDATA 'ClaudeUsageBar\ClaudeUsageBar.exe'; $w = New-Object -ComObject WScript.Shell; $s = $w.CreateShortcut($lnk); $s.TargetPath = $exe; $s.WorkingDirectory = Split-Path $exe; $s.IconLocation = \"$exe,0\"; $s.Description = 'Claude token usage battery in the system tray'; $s.Save()"
+
 echo.
 choice /m "Run it now"
 if errorlevel 2 goto end
