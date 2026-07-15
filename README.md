@@ -4,11 +4,10 @@ A real Windows system tray icon — like Discord's — drawn as a small horizont
 
 ## Setup (one time)
 
-1. Put `ClaudeUsageBar.cs` and `build.bat` in a permanent folder (e.g. `C:\Tools\ClaudeUsageBar`).
-2. Double-click `build.bat` — it compiles `ClaudeUsageBar.exe` with the C# compiler built into Windows (no SDK needed).
-3. Run the exe. The battery icon appears in the tray area.
-4. **Pin it:** Windows puts new tray icons in the `^` overflow flyout by default. Open the flyout and drag the battery icon onto the taskbar (or Settings → Personalization → Taskbar → Other system tray icons → toggle ClaudeUsageBar on).
-5. Right-click the icon → **Start with Windows**.
+1. Double-click `build.bat` — it compiles `ClaudeUsageBar.exe` with the C# compiler built into Windows (no SDK needed) and installs it to `%LOCALAPPDATA%\ClaudeUsageBar`. This source folder can live anywhere; the installed exe doesn't depend on it.
+2. Run the exe (build.bat offers to). The battery icon appears in the tray area.
+3. **Pin it:** Windows puts new tray icons in the `^` overflow flyout by default. Open the flyout and drag the battery icon onto the taskbar (or Settings → Personalization → Taskbar → Other system tray icons → toggle ClaudeUsageBar on).
+4. Right-click the icon → **Start with Windows**. If you later move the exe, run it once from the new spot and the startup entry updates itself.
 
 ## Using it
 

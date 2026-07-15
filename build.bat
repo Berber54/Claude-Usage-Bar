@@ -1,5 +1,6 @@
 @echo off
-rem Builds ClaudeUsageBar.exe using the C# compiler that ships with Windows.
+rem Builds ClaudeUsageBar.exe using the C# compiler that ships with Windows and
+rem installs it to %LOCALAPPDATA%\ClaudeUsageBar, outside this source folder.
 setlocal
 cd /d "%~dp0"
 
@@ -9,16 +10,22 @@ if not exist "%CSC%" goto nocsc
 
 if not exist "ClaudeUsageBar.cs" goto nosrc
 
+set "DEST=%LOCALAPPDATA%\ClaudeUsageBar"
+if not exist "%DEST%" mkdir "%DEST%"
+
+rem Stop a running instance so the exe can be overwritten.
+taskkill /f /im ClaudeUsageBar.exe >nul 2>&1
+
 echo Compiling...
-"%CSC%" /nologo /target:winexe /optimize+ /out:ClaudeUsageBar.exe /r:System.dll /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /r:System.Web.Extensions.dll ClaudeUsageBar.cs
+"%CSC%" /nologo /target:winexe /optimize+ /win32icon:app.ico /out:"%DEST%\ClaudeUsageBar.exe" /r:System.dll /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /r:System.Web.Extensions.dll ClaudeUsageBar.cs
 if errorlevel 1 goto fail
 
 echo.
-echo Build OK: %CD%\ClaudeUsageBar.exe
+echo Build OK: %DEST%\ClaudeUsageBar.exe
 echo.
 choice /m "Run it now"
 if errorlevel 2 goto end
-start "" "%CD%\ClaudeUsageBar.exe"
+start "" "%DEST%\ClaudeUsageBar.exe"
 goto end
 
 :nocsc

@@ -81,6 +81,10 @@ namespace ClaudeUsageBar
             bool firstRun = !File.Exists(ConfigFile);
             LoadConfig();
 
+            // The Run entry stores an absolute path; rewrite it so startup keeps
+            // working after the exe is moved or rebuilt somewhere else.
+            if (IsStartupEnabled()) SetStartup(true);
+
             sync = new Form();
             IntPtr force = sync.Handle;  // force handle creation for BeginInvoke
 
