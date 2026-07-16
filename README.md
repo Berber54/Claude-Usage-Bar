@@ -11,10 +11,16 @@ A real Windows system tray icon — like Discord's — drawn as a small horizont
 
 ## Using it
 
+Two tray icons: the battery gauge, and the percentage digits on a Claude-grey badge
+with a Claude-orange outline.
+
 - **Hover** — tooltip with remaining % (5-hour window by default).
-- **Left-click or Details** — notification with 5-hour + weekly remaining and reset times.
-- **Double-click** — toggle the icon between the 5-hour window and the weekly limit.
-- **Right-click** — Refresh now / Details / Show weekly / Start with Windows / Exit.
+- **Left-click** — opens a dark flyout dashboard anchored to the tray: live countdown
+  to 100%, per-window usage bars (5-hour session, weekly all-models, and weekly
+  model-specific limits such as Fable), and last-update/error status. Click
+  elsewhere or press Escape to close.
+- **Double-click** — toggle the icons between the 5-hour window and the weekly limit.
+- **Right-click** — Refresh now / Details / icon toggles / Start with Windows / Exit.
 - Fill turns deeper orange below 15%; an orange `!` in the battery means an error (hover for the reason).
 
 ## Where the data comes from
