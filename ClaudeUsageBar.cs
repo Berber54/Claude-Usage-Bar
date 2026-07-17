@@ -61,6 +61,7 @@ namespace ClaudeUsageBar
 
         // ---- polling ----
         const int POLL_MINUTES = 5;               // be gentle: endpoint rate-limits hard
+        const int MAX_BACKOFF_MINUTES = 60;       // 429 backoff cap
         const string USAGE_URL = "https://api.anthropic.com/api/oauth/usage";
         // Rotated on 429: the endpoint rate-limits unknown user agents aggressively.
         static readonly string[] USER_AGENTS = {
@@ -256,7 +257,14 @@ namespace ClaudeUsageBar
                     else
                     {
                         errorMsg = err;
-                        if (rateLimited) backoffMinutes = Math.Min(backoffMinutes * 2, 60);
+                        // Double the wait on each 429, but once a full capped wait has
+                        // passed, start over at the normal cadence - a transient burst
+                        // (e.g. everything logging in at startup) must not leave the
+                        // icon stuck on hourly retries for the rest of the day.
+                        if (rateLimited)
+                            backoffMinutes = backoffMinutes >= MAX_BACKOFF_MINUTES
+                                ? POLL_MINUTES
+                                : Math.Min(backoffMinutes * 2, MAX_BACKOFF_MINUTES);
                     }
                     nextFetchUtc = DateTime.UtcNow.AddMinutes(backoffMinutes);
                     fetching = false;
